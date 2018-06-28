@@ -13,6 +13,7 @@ $(() =>
       this.boredomFactors = [];
       this.thirdMin = 0;
 
+
       const firstMin = Math.min(factors1.length, factors2.length);
       const secondMin = Math.min(factors2.length, factors3.length);
       this.thirdMin = Math.min(firstMin, secondMin);
@@ -282,12 +283,21 @@ $(() =>
 
   // declare the tomagotchi's existence
   // within the global scope
+  let thisName = "???";
   let mortysPersonality = null;
   let morty = null;
   let mortysTime = null;
   let timePasses = null;
   let seconds = 0;
 
+  $('form').on('submit', (e) => {
+  // Which stops the form from refreshing the page
+  e.preventDefault(); // keep the page from refreshing
+
+  thisName = $('tomagotchi-name').val();
+  $('#name-plate').append("<h3>" + thisName + "</h3>");
+
+});
 
   $('#feed-btn').on('click', () => { morty.eat(); });
   $('#light-btn').on('click', () => { morty.sleep(); });
@@ -301,7 +311,7 @@ $(() =>
     mortysPersonality = new Personality(personalityTrait2, personalityTrait2, personalityTrait1);
 
     // declare the values of the new tomagotchi
-    morty = new Tamagotchi("pookie", pics1, morph1);
+    morty = new Tamagotchi(thisName, pics1, morph1);
 
     // start the timer when the tomagotchi is born
     mortysTime = new Timer(0,0,0,0);
@@ -315,7 +325,7 @@ $(() =>
     $('.tomagotchi-interface').css('visibility', 'visible');
 
     mortysPersonality = new Personality(personalityTrait1, personalityTrait2, personalityTrait3);
-    morty = new Tamagotchi("pookie", pics2, morph1);
+    morty = new Tamagotchi(thisName, pics2, morph1);
     mortysTime = new Timer(0,0,0,0);
     timePasses = setInterval(timePassing, 1000);
   });
@@ -325,7 +335,7 @@ $(() =>
     $('.tomagotchi-interface').css('visibility', 'visible');
 
     mortysPersonality = new Personality(personalityTrait3, personalityTrait3, personalityTrait3);
-    morty = new Tamagotchi("pookie", pics3, morph1);
+    morty = new Tamagotchi(thisName, pics3, morph1);
     mortysTime = new Timer(0,0,0,0);
     timePasses = setInterval(timePassing, 1000);
   });
