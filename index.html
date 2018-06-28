@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Tomagotchi</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+    <link rel="stylesheet" href="css/styles.css">
+  </head>
+
+  <body>
+
+    <div class="tomagotchi-choice">
+        <h1 class="page-title">Tomagotchi</h1>
+        <br>
+
+        <h2 class="page-title">Choose your tomagotchi</h2>
+
+        <div class="eggs">
+          <h3><button id="egg1-link">Koromon</button></h3>
+          <img id="egg1-image" src="https://imgur.com/RovunBV.jpg">
+          <br>
+
+          <h3><button id="egg2-link">Tsunomon</button></h3>
+          <img id="egg2-image" src="https://imgur.com/CpopRvQ.jpg">
+          <br>
+
+          <h3><button id="egg3-link">Tokomon</button></h3>
+          <img id="egg3-image" src="https://imgur.com/RovunBV.jpg">
+          <br>
+        </div>
+    </div>
+
+
+    <div class="tomagotchi-interface">
+      <div id="screen">
+      </div>
+
+      <div class="status">
+        <h3>Status: </h3>
+      </div>
+
+      <div class="stats">
+        <h3 id="hunger">Hunger: 1</h3>
+        <h3 id="boredom">Boredom: 1</h3>
+        <h3 id="sleepiness">Sleepiness: 1</h3>
+      </div>
+
+      <div class="timer">
+        <h4 id="this-timer"></h4>
+      </div>
+
+      <div class="panel">
+        <button id="feed-btn">Feed Pet</button>
+        <button id="light-btn">Lights On</button>
+        <button id="play-btn">Play</button>
+      </div>
+    </div>
+
+
+    <script type="text/javascript" src="js/app.js"></script>
+  </body>
+</html>

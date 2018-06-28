@@ -1,0 +1,59 @@
+
+.tomagotchi-interface {
+  visibility: hidden;
+}
+
+
+
+
+img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+body {
+  background-image: url("https://imgur.com/tqAIsaZ.gif");
+}
+
+.stats {
+  width: 40%;
+  background-color: white;
+  text-align: center;
+  margin-left: 30%;
+}
+
+.panel {
+
+  text-align: center;
+}
+
+.timer {
+  text-align: center;
+  background-color: white;
+  width: 40%;
+  margin-left: 30%;
+}
+.screen {
+  text-align: center;
+  height: 500px;
+
+}
+
+.status {
+  text-align: center;
+  color: green;
+}
+
+.eggs {
+  text-align: center;
+  color: green;
+
+}
+
+.page-title {
+  text-align: center;
+  background-color: green;
+  width: 40%;
+  margin-left: 30%;
+}
