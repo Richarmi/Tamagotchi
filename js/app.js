@@ -6,26 +6,56 @@ $(() =>
 {
 
   class Personality {
-    constructor(hungryFactors, tiredFactors, boredomFactors)
+    constructor(factors1, factors2, factors3)
     {
-      const firstMax = Math.max(hungryFactors, tiredFactors);
-      const secondMax = Math.max(tiredFactors, boredomFactors);
-      const thirdMax = Math.max(firstMax, secondMax);
+      this.hungryFactors = [];
+      this.tiredFactors = [];
+      this.boredomFactors = [];
+      this.thirdMin = 0;
+
+      const firstMin = Math.min(factors1.length, factors2.length);
+      const secondMin = Math.min(factors2.length, factors3.length);
+      this.thirdMin = Math.min(firstMin, secondMin);
 
       // initiate the personality factors
-      for(let i = 0; i < thirdMax; i++)
+      for(let i = 0; i < this.thirdMin; i++)
       {
-        this.hungryFactors[i] = hungryFactors[i];
-        this.tiredFactors[i] = tiredFactors[i];
-        this.boredomFactors[i] = boredomFactors[i];
-      }
+        // if(factors1[i] === 0) { this.hungryFactors[i] = 1; }
+        // else { this.hungryFactors[i] = factors1[i]; }
+        //
+        // if(factors2[i] === 0) { this.tiredFactors[i] = 1; }
+        // else { this.tiredFactors[i] = factors2[i]; }
+        //
+        // if(factors3[i] === 0) { this.boredomFactors[i] = 1; }
+        // else { this.boredomFactors[i] = factors3[i];}
 
+        this.hungryFactors[i] = factors1[i];
+        this.tiredFactors[i] = factors2[i];
+        this.boredomFactors[i] = factors1[i];
+
+        console.log(this.hungryFactors[i] + " " + this.tiredFactors[i] + " " + this.boredomFactors[i]);
+      }
     }
 
-    getHungryFactor(index) { return this.hungryFactors[index % this.thirdMax]; }
-    getTiredFactor(index) { return this.tiredFactors[index % this.thirdMax]; }
-    getBoredomFactor(index) { return this.boredomFactors[index % this.thirdMax]; }
-    getRandomIndex() { return Math.random() * this.thirdMax; }
+    getHungryFactor()
+    {
+       let y = Math.floor(Math.random() * this.thirdMin);
+       let x = this.hungryFactors[Math.floor(Math.random() * this.thirdMin)];
+       console.log(x + " " + y);
+       return x;
+    }
+
+    getTiredFactor()
+    {
+       return this.tiredFactors[Math.floor(Math.random() * this.thirdMin)];
+    }
+
+    getBoredomFactor()
+    {
+       return this.boredomFactors[Math.floor(Math.random() * this.thirdMin)];
+    }
+
+    getRandomIndex() { return Math.floor(Math.random() * this.thirdMin); }
 
   }
 
@@ -166,10 +196,6 @@ $(() =>
     getAge() { return this.age; }
   }
 
-
-  // start the timer when the tomagotchi is born
-
-
   const pics1 = ['https://imgur.com/RovunBV',
                 'https://imgur.com/gLUOC8y',
                 'https://imgur.com/PrYoUt4',
@@ -192,7 +218,9 @@ $(() =>
                 'https://imgur.com/oRBKgcV'];
    const morph3 = [45, 115, 200, 300];
 
-   const personality1 = [5, 2, 10];
+   var personalityTrait1 = [5, 2, 10];
+   var personalityTrait2 = [7, 5, 5];
+   var personalityTrait3 = [7, 7, 7];
    //const personality2 =
 
   // let morty = new Tamagotchi("pookie", pics1, morph1);
@@ -204,30 +232,40 @@ $(() =>
       console.log("morphCounter: " + morty.morphCounter);
       morty.timeToMorph();
       console.log(`It has been ${seconds} seconds`);
+
+      console.log("hungry factor: " + mortysPersonality.getHungryFactor());
+      console.log("boredom factor: " + mortysPersonality.getBoredomFactor());
+      console.log("tired factor: " + mortysPersonality.getTiredFactor());
+
       seconds++;
       morty.age = seconds;
 
       mortysTime.displayTime();
       mortysTime.setSeconds(seconds);
 
-      if(seconds % 3 === 0)
+      if(seconds % mortysPersonality.getHungryFactor() === 0)
       {
+        console.log("hungry factor: " + mortysPersonality.getHungryFactor());
         morty.hunger++;
         $('#hunger').text(`Hunger: ${morty.hunger}`) ;
       }
-      if(seconds % 10 === 0)
+      if(seconds % mortysPersonality.getBoredomFactor() === 0)
       {
+        console.log("boredom factor: " + mortysPersonality.getBoredomFactor());
         morty.boredom++;
         $('#boredom').text(`Boredom: ${morty.boredom}`);
       }
-      if(seconds % 25 === 0)
+      if(seconds % mortysPersonality.getTiredFactor() === 0)
       {
+        console.log("tired factor: " + mortysPersonality.getTiredFactor());
         morty.sleepiness++;
         $('#sleepiness').text(`Sleepiness: ${morty.sleepiness}`);
       }
 
       if(morty.hunger >= 10 || morty.boredom >= 10 || morty.sleepiness >= 10){
         morty.dead = true;
+        $('#current-status').text("Status: Dead");
+
         console.log(`Funeral services will be held Sunday for ${morty.name}`);
         console.log(`Time of Death: `);
         mortysTime.displayTime();
@@ -242,6 +280,9 @@ $(() =>
 
   }
 
+  // declare the tomagotchi's existence
+  // within the global scope
+  let mortysPersonality = null;
   let morty = null;
   let mortysTime = null;
   let timePasses = null;
@@ -253,18 +294,27 @@ $(() =>
   $('#play-btn').on('click', () => { morty.play(); });
 
   $('#egg1-link').on('click', () => {
-    $('.tomagotchi-choice').css('visibility', 'hidden');
+    $('.tomagotchi-choice').remove();
     $('.tomagotchi-interface').css('visibility', 'visible');
 
+    // declare the new tomagotchi's personality
+    mortysPersonality = new Personality(personalityTrait2, personalityTrait2, personalityTrait1);
+
+    // declare the values of the new tomagotchi
     morty = new Tamagotchi("pookie", pics1, morph1);
+
+    // start the timer when the tomagotchi is born
     mortysTime = new Timer(0,0,0,0);
+
+    // start the life of the new tomagotchi
     timePasses = setInterval(timePassing, 1000);
   });
 
   $('#egg2-link').on('click', () => {
     $('.tomagotchi-choice').remove();
-    $('.tomagotchi-interface').show();
+    $('.tomagotchi-interface').css('visibility', 'visible');
 
+    mortysPersonality = new Personality(personalityTrait1, personalityTrait2, personalityTrait3);
     morty = new Tamagotchi("pookie", pics2, morph1);
     mortysTime = new Timer(0,0,0,0);
     timePasses = setInterval(timePassing, 1000);
@@ -274,9 +324,10 @@ $(() =>
     $('.tomagotchi-choice').remove();
     $('.tomagotchi-interface').css('visibility', 'visible');
 
+    mortysPersonality = new Personality(personalityTrait3, personalityTrait3, personalityTrait3);
     morty = new Tamagotchi("pookie", pics3, morph1);
     mortysTime = new Timer(0,0,0,0);
     timePasses = setInterval(timePassing, 1000);
-
   });
+
 });
